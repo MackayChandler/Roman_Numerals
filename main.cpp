@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <cctype>
 
 using namespace std;
 
+//Converts each character in the string to a number
 int Values(char c) {
     
     if (c == 'I') {
@@ -79,6 +81,44 @@ void PrintMenu() {
     cout << "2) Convert Integer to Roman Numerals" << endl;
     cout << "3) Exit" << endl;
 }
+//Handles the rules for the Roman Numerals
+bool VerifyRomNum(string str) {
+    if (str.length() > 1) {
+        for (int i = 0; i < str.length(); i++) {
+            if (i > 0) {
+                if (str[i] == 'C') {
+                    if ((str[i - 1] == 'I') || (str[i - 1] == 'V')) {
+                        return false;                }
+                    else {
+                        return true;
+                    }
+                }
+                else if (str[i] == 'X') {
+                    if (str[i - 1] == 'V') {
+                       return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                else if (str[i] == 'M') {
+                    if ((str[i - 1] == 'I') || (str[i - 1] == 'V') || (str[i - 1] == 'X')) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+    }
+    else {
+        return true;
+    }
+}
 
 int main() {
     int choice = 0;
@@ -87,23 +127,67 @@ int main() {
         PrintMenu();
         cout << "Enter option number: ";
         cin >> choice;
+        while (1) {
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore();
+                cout << "Invalid Input!" << endl;
+                cout << "Enter option number: ";
+                cin >> choice;
+            }
+            if (!cin.fail()) {
+                break;
+            }
+        }
         cout << endl;
         
         if (choice == 1) {
             string romNum;
             cout << "Enter the Roman Numeral to convert: ";
             cin >> romNum;
+            while (1) {
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore();
+                    cout << "Invalid Input!" << endl;
+                    cout << "Enter the Roman Numeral to convert: ";
+                    cin >> romNum;
+                }
+                if (!cin.fail()) {
+                    break;
+                }
+            }
             cout << endl;
+            if (VerifyRomNum(romNum)) {
+                
             cout << "The value of the Roman Numerals is " << RomanNumeralsToInt(romNum) << endl << endl;
+            }
+            else {
+                cout << "Invalid input" << endl;
+            }
         }
         else if (choice == 2) {
             int input;
             cout << "Enter the integer to convert: ";
             cin >> input;
+            while (1) {
+                if (cin.fail()) {
+                    cin.clear();
+                    cin.ignore();
+                    cout << "Invalid Input!" << endl;
+                    cout << "Enter the integer to convert: ";
+                    cin >> input;
+                }
+                if (!cin.fail()) {
+                    break;
+                }
+            }
             cout << endl;
+            
             cout << "The Roman Numerals of the integer are: ";
             IntToRomanNumeral(input);
             cout << endl << endl;
+            
         }
         else if (choice == 3) {
             cout << "Goodbye" << endl;
